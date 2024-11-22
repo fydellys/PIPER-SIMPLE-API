@@ -1,6 +1,7 @@
 import traceback
 from fastapi import FastAPI
 from fastapi import HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 
 from api import doc_speech
@@ -12,7 +13,6 @@ from api.config import api_logger as log
 import api.piper_com as pc
 from api.version import __version__
 
-
 app = FastAPI(
     title="Single TTS API Piper.",
     version=__version__,
@@ -21,6 +21,15 @@ app = FastAPI(
         "email": "anusio@gmail.com",
     },
     root_path=config.prefix
+)
+
+# Configurar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Substitua "*" por uma lista de domínios permitidos, se necessário
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos os métodos (GET, POST, etc.)
+    allow_headers=["*"],  # Permite todos os cabeçalhos
 )
 
 

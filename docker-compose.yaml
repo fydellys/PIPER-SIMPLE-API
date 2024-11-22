@@ -3,11 +3,12 @@ version: '3.8'
 services:
   piper-simple-api:
     build:
-      context: https://github.com/Anusio/PIPER-SIMPLE-API.git
+      context: .
       dockerfile: Dockerfile
     ports:
       - "5501:5501"
     volumes:
+      - ./:/usr/src/
       - ./piper_speakers/:/usr/src/piper_speakers/
     environment:
       - PIPER_GPU=true
