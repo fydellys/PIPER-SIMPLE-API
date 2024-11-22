@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Text to Speech</h1>
+    <input type="text" id="textInput" placeholder="Digite o texto" value="Olá, testando texto para voz! Tudo certo?">
+    <select id="speakerSelect">
+        <option value="pt_BR-faber-medium" selected>pt_BR-faber-medium</option>
+        <option value="pt_BR-edresson-low">pt_BR-edresson-low</option>
+    </select>
+    <button onclick="fetchAudio()">Executar</button>
+    <audio id="audioPlayer" controls></audio>
+
+    <script>
+        async function fetchAudio() {
+            const textInput = document.getElementById("textInput").value;
+            const speaker = document.getElementById("speakerSelect").value;
+            const audioPlayer = document.getElementById("audioPlayer");
+
+            try {
+                // Criação da URL
+                const baseURL = "http://127.0.0.1:5501/text_to_speech/";
+                const params = new URLSearchParams({
+                    text: textInput,
+                    speaker: speaker,
+                });
+
+                const response = await axios.get(`${baseURL}?${params.toString()}`, {
+                    responseType: 'arraybuffer', // Receber o áudio como binário
+                });
+
+                // Criar um Blob para o áudio e reproduzi-lo
+                const audioBlob = new Blob([response.data], { type: 'audio/wav' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                audioPlayer.src = audioUrl;
+                audioPlayer.play();
+            } catch (error) {
+                console.error("Erro ao buscar o áudio:", error);
+            }
+        }
+    </script>
+</body>
+</html>
