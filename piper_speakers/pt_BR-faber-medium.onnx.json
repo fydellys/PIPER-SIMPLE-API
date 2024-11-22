@@ -1,13 +1,13 @@
 {
   "audio": {
-    "sample_rate": 1000
+    "sample_rate": 500
   },
   "espeak": {
     "voice": "pt-br"
   },
   "inference": {
     "noise_scale": 0.667,
-    "length_scale": 2.4,
+    "length_scale": 2.1,
     "noise_w": 0.2
   },
   "phoneme_type": "espeak",
